@@ -8,7 +8,7 @@ import LogoGP from "../assets/img/LogoCP1.png";
 export let ProductCard = ({ image, price }) => {
   return (
     <>
-      <section>
+      <section className="px-10">
         <div className="flex relative ">
           <div className="lg:flex gap-3">
             <button className="md:bg-white md:border-black text-white md:text-black rounded-lg flex items-center justify-center absolute bot-0 bottom-0 right-5 gap-2 py-2 px-4">

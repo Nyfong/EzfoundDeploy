@@ -55,7 +55,7 @@ let CloneDetails = () => {
   return (
     <>
       {/* title descriptipn */}
-      <main className=" max-w-screen-xl min-w-80 mx-auto  p-5  md:p-0 ">
+      <main className="max-w-screen-xl min-w-80 mx-auto p-10 md:p-4">
         {/* show image */}
         <section className="grid mb-5 px-10 xl:p-0">
           <ServiceListingTitle name={fetchSignleProduct.name} />
