@@ -22,7 +22,7 @@ export let ProductCardClone = ({
         <div className="grid p-3 border rounded-xl md:grid-cols-2  grid-cols-1 ">
           <div className=" col-span-1 grid place-content-start grid-cols-1 gap-4  ">
             {/* title */}
-            <div className="py-5 ">
+            <div className=" ">
               <img
                 src={images}
                 className=" h-[200px] w-full object-cover rounded-lg border-2 border-primary-500"

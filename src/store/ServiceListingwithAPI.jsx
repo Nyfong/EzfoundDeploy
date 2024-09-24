@@ -37,13 +37,13 @@ export function TestAPI() {
 
   return (
     <>
-      <div className="max-w-screen-xl min-w-80 mx-auto p-5 md:p-0">
+      <div className="max-w-screen-xl min-w-80 mx-auto p-10 md:p-4">
         <div className="flex flex-col sticky top-[55px] z-10 justify-center md:justify-start">
           <SearchBar onCategorySelect={setSelectedCategory} />{" "}
           {/* Pass category to setSelectedCategory */}
         </div>
 
-        <div className="grid gap-10">
+        <div className="flex flex-col gap-10">
           {loading && (
             <div className="text-center">
               <Lottie

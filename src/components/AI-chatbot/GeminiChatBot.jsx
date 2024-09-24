@@ -79,7 +79,7 @@ const GeminiChatBot = ({ closeChatbot }) => {
   };
 
   return (
-    <section className="relative w-[300px] shadow-xl rounded-lg overflow-hidden">
+    <section className="relative w-[250px] md:w-[330px] shadow-xl rounded-lg overflow-hidden">
       <button
         onClick={closeChatbot}
         className="absolute top-2 right-2 text-gray-500 hover:text-red-500 transition"

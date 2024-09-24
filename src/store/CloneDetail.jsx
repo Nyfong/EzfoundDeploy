@@ -178,7 +178,7 @@ let CloneDetails = () => {
                 {/* price */}
                 <div className="text-center mb-6">
                   <div className="grid grid-cols-2">
-                    <span className="block text-5xl font-bold text-gray-800 mb-10">
+                    <span className="block text-md md:text-5xl font-bold text-gray-800 mb-10">
                       ${fetchSignleProduct.price}
                     </span>
                     <h5 className="lg:text-2xl font-semibold ml-10 md:ml-0 text-xs text-gray-800 mb-10">

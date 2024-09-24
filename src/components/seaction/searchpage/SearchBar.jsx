@@ -83,7 +83,7 @@ export function SearchBar({ onCategorySelect, selectedCategory }) {
   };
 
   return (
-    <div className="flex font-poppins justify-center items-center py-8 w-[300px] md:w-[500px] ">
+    <div className="flex font-poppins justify-start items-center  py-8 w-[240px] md:w-[500px] ">
       <form className="max-w-lg w-full">
         <div className="flex relative">
           <button
