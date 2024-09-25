@@ -1,50 +1,29 @@
 import { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
-import logo1 from "../../assets/img/LogoCP1.png"; // Adjust this path accordingly
+import { NavLink, useNavigate } from "react-router-dom";
+import logo1 from "../../assets/img/LogoCP1.png";
 import logo2 from "../../assets/img/LogoGPD.png";
+import { Link } from "react-router-dom";
 import {
   getAccessToken,
   removeAccessToken,
   clearSecureLocalStorage,
-} from "../../lib/secureLocalStorage"; // Ensure this path is correct
+} from "../../lib/secureLocalStorage";
 
 const Navbar = ({ isDarkMode, toggleDarkMode }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [accessToken, setAccessToken] = useState("");
-  const [loginMessage, setLoginMessage] = useState(""); // State for login message
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
+  // const [accessToken, setAccessToken] = useState("");
+  // useEffect(() => {
+  //   setAccessToken(token);
+  // }, [accessToken]);
+  const accessToken = localStorage.getItem("accessToken");
+  console.log("accessToken navbE", accessToken);
 
-  useEffect(() => {
-    const token = getAccessToken();
-    setAccessToken(token);
-    if (token) {
-      setLoginMessage("Login successful!"); // Set message if a token is found
-    } else {
-      setLoginMessage(""); // Clear message if no token
-    }
-  }, []);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  // Handle logout
+  // handle logout
   const handleLogout = () => {
-    console.log("Logging out...");
-
-    // Clear all items from secure local storage
     clearSecureLocalStorage();
-
-    // Clear local state
-    setAccessToken(""); // Clear access token in local state
-    setLoginMessage(""); // Clear login message on logout
-
-    console.log(
-      "Logout successful. All items cleared from secure local storage."
-    );
+    navigate("/");
   };
-
-  const isLoggedIn = !!accessToken; // Determine if user is logged in based on access token
 
   return (
     <div
@@ -54,17 +33,16 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
     >
       <header className="sticky top-0 w-full font-poppins">
         <nav className="grid grid-cols-2 sm:grid-cols-4 py-3 px-10">
-          {/* Logo and mobile menu button */}
           <div className="col-span-2 flex items-center justify-between lg:col-span-1">
             <NavLink to="/">
               <img
-                src={isDarkMode ? logo2 : logo1} // Switch logos based on dark mode
+                src={isDarkMode ? logo2 : logo1}
                 alt="logo"
                 className="h-[55px] w-[55px]"
               />
             </NavLink>
             <button
-              onClick={toggleMenu}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle Menu"
               className="lg:hidden text-2xl"
             >
@@ -76,7 +54,6 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
             </button>
           </div>
 
-          {/* Desktop Menu */}
           <ul
             className={`flex items-center font-bold sm:gap-5 hidden md:gap-2 lg:flex lg:col-span-2 pl-0 sm:pl-3 ${
               isDarkMode ? "text-white" : "text-black"
@@ -102,7 +79,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
                 FAQ
               </NavLink>
             </li>
-            <li className="p-3 ">
+            <li className="p-3">
               <NavLink
                 to="/aboutus"
                 className={({ isActive }) =>
@@ -112,41 +89,21 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
                 About Us
               </NavLink>
             </li>
-
-            {/* Conditional Rendering for Add to Cart and Profile Icons */}
-            {isLoggedIn && (
+            {!accessToken && (
               <>
-                <li className="p-3">
-                  <NavLink
-                    to="/cart"
-                    className={({ isActive }) =>
-                      isActive ? "text-amber-600" : "text-amber-500"
-                    }
-                  >
-                    <i className="fa fa-shopping-cart"></i>{" "}
-                    {/* Add Cart Icon */}
-                  </NavLink>
-                </li>
-                <li className="p-3">
-                  <NavLink
-                    to="/profile"
-                    className={({ isActive }) =>
-                      isActive ? "text-amber-600" : "text-amber-500"
-                    }
-                  >
-                    <i className="fa fa-user"></i> {/* Profile Icon */}
-                  </NavLink>
-                </li>
-                <li className="p-3">
-                  <button onClick={handleLogout} className="text-amber-500">
-                    Logout
-                  </button>
-                </li>
+                <Link to="/signup">Register</Link>
+                <Link to="/login" className="ml-2">
+                  Login
+                </Link>
               </>
+            )}
+            {accessToken && (
+              <button onClick={() => handleLogout()} className="ml-2">
+                Logout
+              </button>
             )}
           </ul>
 
-          {/* Mobile menu */}
           <ul
             className={`fixed top-0 right-0 w-4/5 h-full flex flex-col items-center transition-transform duration-300 ${
               isMenuOpen ? "translate-x-0" : "translate-x-full"
@@ -157,7 +114,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
             <li className="p-5">
               <NavLink
                 to="/servicepage"
-                onClick={toggleMenu}
+                onClick={() => setIsMenuOpen(false)}
                 className={({ isActive }) =>
                   isActive ? "text-amber-900" : "text-amber-400"
                 }
@@ -168,7 +125,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
             <li className="p-5">
               <NavLink
                 to="/faq"
-                onClick={toggleMenu}
+                onClick={() => setIsMenuOpen(false)}
                 className={({ isActive }) =>
                   isActive ? "text-amber-900" : "text-amber-400"
                 }
@@ -179,7 +136,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
             <li className="p-5">
               <NavLink
                 to="/aboutus"
-                onClick={toggleMenu}
+                onClick={() => setIsMenuOpen(false)}
                 className={({ isActive }) =>
                   isActive ? "text-amber-900" : "text-amber-400"
                 }
@@ -188,48 +145,22 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
               </NavLink>
             </li>
 
-            {/* Conditional Rendering for Add to Cart and Profile Icons in Mobile Menu */}
-            {isLoggedIn && (
+            {!accessToken && (
               <>
-                <li className="p-5">
-                  <NavLink
-                    to="/cart"
-                    onClick={toggleMenu}
-                    className={({ isActive }) =>
-                      isActive ? "text-amber-900" : "text-amber-400"
-                    }
-                  >
-                    <i className="fa fa-shopping-cart"></i>{" "}
-                    {/* Add Cart Icon */}
-                  </NavLink>
-                </li>
-                <li className="p-5">
-                  <NavLink
-                    to="/profile"
-                    onClick={toggleMenu}
-                    className={({ isActive }) =>
-                      isActive ? "text-amber-900" : "text-amber-400"
-                    }
-                  >
-                    <i className="fa fa-user"></i> {/* Profile Icon */}
-                  </NavLink>
-                </li>
-                <li className="p-5">
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      toggleMenu();
-                    }}
-                    className="text-amber-900"
-                  >
-                    Logout
-                  </button>
-                </li>
+                <Link to="/register">Register</Link>
+                <Link to="/login " className="ml-2">
+                  Login
+                </Link>
               </>
+            )}
+            {accessToken && (
+              <button onClick={() => handleLogout()} className="ml-2">
+                Logout
+              </button>
             )}
 
             <button
-              onClick={toggleMenu}
+              onClick={() => setIsMenuOpen(false)}
               aria-label="Close Menu"
               className="absolute top-4 right-4 text-2xl"
             >
@@ -237,10 +168,8 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
             </button>
           </ul>
 
-          {/* Theme toggle */}
           <div className="col-span-2 flex items-center justify-end lg:col-span-1">
             <div className="flex gap-4 items-center">
-              {/* Dark Mode Toggle Button */}
               <button onClick={toggleDarkMode} className="p-1">
                 {isDarkMode ? (
                   <i className="fa fa-sun text-yellow-400"></i>
@@ -251,11 +180,6 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
             </div>
           </div>
         </nav>
-
-        {/* Display the login success message */}
-        {loginMessage && (
-          <div className="text-center text-green-500">{loginMessage}</div>
-        )}
       </header>
     </div>
   );

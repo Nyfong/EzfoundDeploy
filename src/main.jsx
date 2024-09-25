@@ -22,6 +22,12 @@ import { TestAPI } from "./store/ServiceListingwithAPI.jsx";
 import GeminiChatBot from "./components/AI-chatbot/GeminiChatBot.jsx";
 import AuthLayout from "./components/layout/AuthLayout.jsx"; // Import the new layout
 import Verify from "./pages/form/Verify.jsx";
+
+const handleLogin = (token) => {
+  // Logic to handle the login token (e.g., store it in state or localStorage)
+  localStorage.setItem("accessToken", token);
+  // Update any necessary state for authenticated user
+};
 const router = createBrowserRouter([
   {
     path: "/",
@@ -89,7 +95,8 @@ const router = createBrowserRouter([
     path: "/login",
     element: (
       <AuthLayout>
-        <LoginForm /> {/* Login form inside AuthLayout */}
+        <LoginForm handleLogin={handleLogin} />{" "}
+        {/* Login form inside AuthLayout */}
       </AuthLayout>
     ),
   },

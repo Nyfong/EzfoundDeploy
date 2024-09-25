@@ -8,22 +8,24 @@ import { Link, useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import animationData from "../../components/animations/login.json";
 
-export default function LoginForm() {
+export default function LoginForm({ handleLogin }) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const regex = /^.{5,}$/;
 
-  const handleLogin = async (values) => {
+  const handleLoginSubmit = async (values) => {
     setLoading(true);
     try {
       const loginRes = await login(values);
       console.log("Login Response:", loginRes);
-      localStorage.setItem("accessToken", loginRes.access);
-
       if (loginRes.access) {
+        localStorage.setItem("accessToken", loginRes.access);
+        handleLogin(loginRes.access); // Call handleLogin to update navbar state
         toast.success("Login Successfully");
+
         navigate("/");
+        // window.location.reload(); // Navigate to the home page
       } else if (loginRes.message) {
         toast.error(loginRes.message);
       }
@@ -55,9 +57,8 @@ export default function LoginForm() {
                 </h1>
                 <Formik
                   initialValues={{
-                    email: "litongfong12@gmail.com",
-
-                    password: "password123",
+                    email: "",
+                    password: "",
                   }}
                   validationSchema={Yup.object({
                     email: Yup.string()
@@ -71,7 +72,7 @@ export default function LoginForm() {
                       .required("Password is required"),
                   })}
                   onSubmit={async (values, { resetForm }) => {
-                    await handleLogin(values);
+                    await handleLoginSubmit(values);
                     resetForm(); // Reset after handling login
                   }}
                 >
