@@ -77,15 +77,6 @@ let Servicepage = () => {
         </Helmet>
         <HerobannerServiePage />
         <section className=" max-w-screen-xl min-w-80 mx-auto  p-5  md:p-10 font-poppins ">
-          {/* search */}
-          {/* <section className="grid grid-cols-1 lg:grid-cols-2 z-10  lg:px-0 ">
-          <div className="px-6 lg:px-0">
-            <SearchBar />
-          </div>
-          <div className="flex justify-start lg:justify-end items-center">
-            <SearchLocation />
-          </div>
-        </section> */}
           <section className="pt-10 flex justify-between">
             <span className="font-bold  text-header-2 font-pacifico">
               {" "}

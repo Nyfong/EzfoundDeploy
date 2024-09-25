@@ -96,7 +96,7 @@ function Test() {
                     alt={item.name}
                     className="w-full h-60 rounded-lg object-cover block"
                   />
-                  <div className="p-6 mt-3 bg-primary-500 rounded-lg">
+                  <div className="p-6 mt-3 bg-primary-500 rounded-full">
                     <p className="font-semibold text-white text-center line-clamp-1">
                       {item.name}
                     </p>

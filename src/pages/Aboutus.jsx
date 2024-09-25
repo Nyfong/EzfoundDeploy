@@ -257,7 +257,7 @@ const Aboutus = () => {
           <section className="">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="mb-10">
-                <h2 className="font-pacifico text-5xl text-center font-bold  mb-6">
+                <h2 className=" text-center  mb-6 font-pacifico text-5xl mb-5 text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-blue-400 to-white">
                   Our Team
                 </h2>
                 <p className="font-poppins text-lg text-gray-500 text-center">
@@ -421,7 +421,7 @@ const Aboutus = () => {
                                 <legend className="block mb-2 text-sm text-gray-600 dark:text-gray-200">
                                   Select Subject?
                                 </legend>
-                                <div className="flex flex-wrap gap-5 mt-5 text-xs leading-loose text-slate-900">
+                                <div className="flex flex-wrap gap-5 mt-5 text-xs leading-loose text-slate-900  dark:text-gray-200">
                                   <label className="flex gap-2.5">
                                     <input
                                       type="radio"

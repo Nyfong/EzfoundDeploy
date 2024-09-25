@@ -46,7 +46,7 @@ const router = createBrowserRouter([
       //   element: <DetailListingPage />,
       // },
       {
-        path: "/api/:id",
+        path: "/servicelisting/:id",
         element: <CloneDetails />,
       },
       // {
@@ -66,7 +66,7 @@ const router = createBrowserRouter([
       //   element: <Test />,
       // },
       {
-        path: "/api",
+        path: "/servicelisting",
         element: <TestAPI />,
       },
       {

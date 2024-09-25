@@ -46,7 +46,7 @@ export let ProductCardClone = ({
                 </div>
                 {/* link */}
                 <div>
-                  <Link to={`/api/${id}`}>
+                  <Link to={`/servicelisting/${id}`}>
                     <button className="text-white bg-primary-500 px-8 py-2 rounded-full">
                       View Details
                     </button>

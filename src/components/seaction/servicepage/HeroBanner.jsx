@@ -2,10 +2,10 @@ import Button1 from "../../button/propBtn/Button1";
 let HerobannerServiePage = () => {
   return (
     <>
-      <section className="bg-[url('https://easyfound.automatex.dev/media/uploads/category_c52b9626-6fc9-4443-a747-d8be5eaaa024.png')]  md:bg-center bg-cover bg-no-repeat font-poppins">
-        <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex h-screen lg:items-center">
+      <section className="bg-[url('https://easyfound.automatex.dev/media/uploads/category_c52b9626-6fc9-4443-a747-d8be5eaaa024.png')]  bg-center bg-cover bg-no-repeat font-poppins">
+        <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:items-center">
           <div className="mx-auto max-w-xl text-center">
-            <h1 className="text-white md:text-black text-3xl font-extrabold sm:text-5xl">
+            <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-blue-400 to-white md:text-black text-3xl font-extrabold sm:text-5xl">
               Explore Numerous
               <strong className="font-extrabold text-amber-500 sm:block">
                 {" "}

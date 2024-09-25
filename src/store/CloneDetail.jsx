@@ -177,7 +177,7 @@ let CloneDetails = () => {
 
               {/* desctiption */}
               <div className="grid grid-cols-1  mb-10">
-                <p className="font-poppins flex md:hidden  text-grey-400">
+                <p className="font-kh flex md:hidden  text-grey-400">
                   {fetchSignleProduct.description}
                 </p>
               </div>
@@ -208,7 +208,7 @@ let CloneDetails = () => {
                     <img src={LogoGP} className="h-[30px] flex " alt="" />
                   </div>
 
-                  <p className="font-poppins text-grey-400">
+                  <p className="font-kh text-grey-400">
                     {fetchSignleProduct.description}
                   </p>
                 </div>

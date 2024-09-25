@@ -1,7 +1,8 @@
 const Images = [
-  "https://seismic.com/wp-content/uploads/2022/03/How-to-deliver-quality-customer-service-hero@1x.webp",
-  "https://www.purshology.com/wp-content/uploads/2022/07/06-SA-US-Header-Customer-Service-vs-Customer-Support-Whats-the-Difference_Tile.png",
-  "https://knowledge.hubspot.com/hubfs/customerserviceideas%20%281%29.png",
+  "http://easyfound.automatex.dev/media/uploads/category_ae62ebeb-9dec-4bb4-9218-7c7f5e88529d.png",
+  "https://easyfound.automatex.dev/media/uploads/category_a531115b-a110-4682-86f1-5c33480557e4.png",
+
+  "https://easyfound.automatex.dev/media/uploads/category_a08ba601-e6bf-4bc2-bb44-1f609d00f6a8.png",
 ];
 
 let HeroBanner = () => {
