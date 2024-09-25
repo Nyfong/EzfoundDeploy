@@ -23,7 +23,10 @@ let Homepage = () => {
             </div>
             <div>
               <h1 className="font-bold font-poppins text-5xl leading-relaxed">
-                Easy Found: <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-500 to-pink-500">
+                  Easy Found
+                </span>{" "}
+                <br />
                 Find Local Services Easier with Easy Found
               </h1>
             </div>
@@ -32,7 +35,7 @@ let Homepage = () => {
                 Welcome to Easy Found, Cambodia’s premier service listing
                 platform! Explore a wide range of trusted local services, from
                 restaurants to repair shops, all in one place. Let Easy Found
-                connect you to what you need wi th just a few clicks!{" "}
+                connect you to what you need with just a few clicks!{" "}
               </p>
             </div>
             {/* show contact people */}

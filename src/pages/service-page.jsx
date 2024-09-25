@@ -44,7 +44,7 @@ let Servicepage = () => {
   return (
     <>
       <HerobannerServiePage />
-      <section className=" max-w-screen-xl min-w-80 mx-auto  p-5  md:p-0 font-poppins ">
+      <section className=" max-w-screen-xl min-w-80 mx-auto  p-5  md:p-10 font-poppins ">
         {/* search */}
         {/* <section className="grid grid-cols-1 lg:grid-cols-2 z-10  lg:px-0 ">
           <div className="px-6 lg:px-0">

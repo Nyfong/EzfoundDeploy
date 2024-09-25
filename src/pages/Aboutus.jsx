@@ -9,10 +9,10 @@ import { Link } from "react-router-dom";
 const Name = [
   "Ny Fong",
   "Chea Soriya",
-  "Chea Muoyheang",
+  "Chhea Muoyheang",
   "Sam Nisa",
   "Chhim Theara",
-  "Oun Mekara",
+  "Oun Markara",
 ];
 const githubAcc = [
   "https://github.com/Nyfong",
