@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo1 from "../../assets/img/LogoCP1.png";
 import logo2 from "../../assets/img/LogoGPD.png";
@@ -12,12 +12,7 @@ import {
 const Navbar = ({ isDarkMode, toggleDarkMode }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  // const [accessToken, setAccessToken] = useState("");
-  // useEffect(() => {
-  //   setAccessToken(token);
-  // }, [accessToken]);
-  const accessToken = localStorage.getItem("accessToken");
-  console.log("accessToken navbE", accessToken);
+  const accessToken = localStorage.getItem("accessToken"); // Check access token
 
   // handle logout
   const handleLogout = () => {
@@ -89,21 +84,28 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
                 About Us
               </NavLink>
             </li>
-            {!accessToken && (
+            {!accessToken ? (
               <>
-                <Link to="/signup">Register</Link>
+                <Link to="/signup" className="ml-2">
+                  Register
+                </Link>
                 <Link to="/login" className="ml-2">
                   Login
                 </Link>
               </>
-            )}
-            {accessToken && (
-              <button onClick={() => handleLogout()} className="ml-2">
-                Logout
-              </button>
+            ) : (
+              <>
+                <Link to="/profile" className="ml-2">
+                  <i class="fa-solid fa-user"></i>
+                </Link>
+                <button onClick={handleLogout} className="ml-8">
+                  Logout
+                </button>
+              </>
             )}
           </ul>
 
+          {/* Mobile Menu */}
           <ul
             className={`fixed top-0 right-0 w-4/5 h-full flex flex-col items-center transition-transform duration-300 ${
               isMenuOpen ? "translate-x-0" : "translate-x-full"
@@ -145,18 +147,22 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
               </NavLink>
             </li>
 
-            {!accessToken && (
+            {!accessToken ? (
               <>
                 <Link to="/register">Register</Link>
-                <Link to="/login " className="ml-2">
+                <Link to="/login" className="ml-2">
                   Login
                 </Link>
               </>
-            )}
-            {accessToken && (
-              <button onClick={() => handleLogout()} className="ml-2">
-                Logout
-              </button>
+            ) : (
+              <>
+                <Link to="/profile">
+                  <i class="fa-solid fa-user"></i>
+                </Link>
+                <button onClick={handleLogout} className="ml-8">
+                  Logout
+                </button>
+              </>
             )}
 
             <button
@@ -168,6 +174,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
             </button>
           </ul>
 
+          {/* Dark Mode Toggle */}
           <div className="col-span-2 flex items-center justify-end lg:col-span-1">
             <div className="flex gap-4 items-center">
               <button onClick={toggleDarkMode} className="p-1">
