@@ -21,7 +21,7 @@ import { CardProfile } from "./pages/profile/CardProfile.jsx";
 import { TestAPI } from "./store/ServiceListingwithAPI.jsx";
 import GeminiChatBot from "./components/AI-chatbot/GeminiChatBot.jsx";
 import AuthLayout from "./components/layout/AuthLayout.jsx"; // Import the new layout
-
+import Verify from "./pages/form/Verify.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -78,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: "/aboutus",
         element: <Aboutus />,
+      },
+      {
+        path: "/verify",
+        element: <Verify />,
       },
     ],
   },

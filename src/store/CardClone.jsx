@@ -33,7 +33,7 @@ export let ProductCardClone = ({
             <div className="grid grid-cols-1 gap-4">
               <div className="font-poppins">
                 <h1 className="text-2xl font-bold ">{title}</h1>
-                <p className="line-clamp-3">{description}</p>
+                <p className="line-clamp-3 font-kh">{description}</p>
               </div>
               <div className="flex gap-3 justify-end pr-10">
                 {/* image */}
@@ -116,9 +116,7 @@ export let ProductCardClone = ({
                 </div>
               </div>
 
-              <div class="text-body line-clamp-1 font-poppins">
-                {description}
-              </div>
+              <div class=" text-body line-clamp-1 font-kh">{description}</div>
             </div>
             <FeedbackForm shopename={title} />
             {/* new */}

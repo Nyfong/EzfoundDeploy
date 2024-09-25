@@ -27,6 +27,7 @@ export default {
       },
       fontFamily: {
         teko: ["Teko", "sans-serif"],
+        kh: ["kh", "sans-serif"], // Add custom font
         poppins: ["Poppins", "sans-serif"],
         pacifico: ["Pacifico", "cursive"],
       },

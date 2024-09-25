@@ -32,7 +32,7 @@ export let ProductCard = ({ image, price }) => {
                   {/* price */}
                   <div className="text-center mb-6">
                     <div className="grid grid-cols-2">
-                      <span className="block text-5xl font-bold text-gray-800 mb-10">
+                      <span className="block text-3xl font-bold text-gray-800 mb-10">
                         $ {price}
                       </span>
                       <h5 className="text-2xl font-semibold text-gray-800 mb-10">

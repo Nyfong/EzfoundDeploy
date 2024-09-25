@@ -17,7 +17,14 @@
 
 @font-face {
   font-family: "Pacifico"; /* Capitalized for consistency */
-  src: url("./assets/fonts/Pacifico-Regular.ttf") format("truetype");
+  src: url("./assets/fonts/Poppins-Regular.ttf") format("truetype");
+  font-weight: normal; /* Pacifico is usually a single weight */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "kh"; /* Capitalized for consistency */
+  src: url("./assets/fonts/Kantumruy-Regular.ttf") format("truetype");
   font-weight: normal; /* Pacifico is usually a single weight */
   font-style: normal;
 }

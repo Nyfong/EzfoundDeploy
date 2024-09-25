@@ -1,18 +1,48 @@
-import { useState } from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-const FeedbackForm = ({ shopename }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Replace false with actual login state
+const FeedbackForm = ({ shopename, id }) => {
+  const navigate = useNavigate();
+  const accessToken = localStorage.getItem("accessToken");
   const [showAlert, setShowAlert] = useState(false);
   const [feedback, setFeedback] = useState("");
+  const [reviews, setReviews] = useState([]); // State to hold fetched reviews
 
   const handleTextareaFocus = (event) => {
-    if (!isLoggedIn) {
+    if (!accessToken) {
       setShowAlert(true);
       event.preventDefault();
       event.target.blur();
     }
   };
+
+  const svcid = id;
+
+  useEffect(() => {
+    console.log("Fetched single product:", shopename);
+    console.log("Service ID being used:", svcid);
+  }, [shopename, svcid]);
+
+  // Fetch reviews from the API
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch(
+        "https://easyfound.automatex.dev/api/reviews/"
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setReviews(data); // Set the fetched reviews to state
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews(); // Call the function to fetch reviews when the component mounts
+  }, []); // Empty dependency array to run only on mount
 
   const handleCloseAlert = () => {
     setShowAlert(false);
@@ -22,9 +52,54 @@ const FeedbackForm = ({ shopename }) => {
     setFeedback(event.target.value);
   };
 
+  const submitReview = async (reviewData) => {
+    try {
+      const response = await fetch(
+        "https://easyfound.automatex.dev/api/reviews/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(reviewData),
+        }
+      );
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      return { error: "An error occurred while submitting the review." };
+    }
+  };
+
+  const handleSubmit = async () => {
+    console.log("service id ", id);
+    if (!accessToken) {
+      navigate("/login");
+    } else {
+      const reviewData = {
+        comment: feedback,
+        rate_star: 5, // Assuming a default star rating
+        service: svcid,
+      };
+
+      const result = await submitReview(reviewData);
+
+      if (result.error) {
+        console.log("Review submission failed:", result.error);
+      } else {
+        console.log("Review submitted successfully:", result);
+        setFeedback(""); // Clear the feedback field after submission
+        fetchReviews(); // Refetch reviews to display the new review
+      }
+    }
+  };
+
   return (
-    <div className="md:flex mb-10  rounded-lg flex flex-col">
-      <div className="bg-white  grid grid-cols-6 gap-2 rounded-xl p-2 text-sm">
+    <div className="md:flex mb-10 rounded-lg flex flex-col">
+      <div className="bg-white grid grid-cols-6 gap-2 rounded-xl p-2 text-sm">
         <h1 className="font-poppins text-center text-slate-200 text-xl font-bold col-span-6">
           Send Feedback to{" "}
           <span className="text-grey-400 font-pacifico">{shopename}</span>
@@ -32,7 +107,7 @@ const FeedbackForm = ({ shopename }) => {
 
         {/* Textarea for feedback */}
         <textarea
-          placeholder="I love this service so much it make me easy and efficient....."
+          placeholder="I love this service so much it makes me easy and efficient....."
           className="bg-slate-100 text-slate-600 h-28 placeholder:text-slate-600 placeholder:opacity-50 border border-slate-200 col-span-6 resize-none outline-none rounded-lg p-2 duration-300 focus:border-slate-600"
           value={feedback}
           onChange={handleFeedbackChange}
@@ -42,14 +117,7 @@ const FeedbackForm = ({ shopename }) => {
         {/* Feedback button */}
         <button
           className="fill-slate-600 col-span-1 flex justify-center items-center rounded-lg p-2 duration-300 bg-slate-100 hover:border-slate-600 focus:fill-blue-200 focus:bg-blue-400 border border-slate-200"
-          onClick={() => {
-            if (!isLoggedIn) {
-              setShowAlert(true); // Show the alert if the user is not logged in
-            } else {
-              // Handle the feedback submission logic here
-              console.log("Feedback submitted:", feedback);
-            }
-          }}
+          onClick={handleSubmit}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -58,16 +126,12 @@ const FeedbackForm = ({ shopename }) => {
           >
             <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm177.6 62.1C192.8 334.5 218.8 352 256 352s63.2-17.5 78.4-33.9c9-9.7 24.2-10.4 33.9-1.4s10.4 24.2 1.4 33.9c-22 23.8-60 49.4-113.6 49.4s-91.7-25.5-113.6-49.4c-9-9.7-8.4-24.9 1.4-33.9s24.9-8.4 33.9 1.4zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"></path>
           </svg>
-
-          {/* Optional text next to the icon */}
         </button>
 
         {/* Alert Message */}
         {showAlert && (
           <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black/30">
-            {" "}
-            {/* Background blur */}
-            <div className="flex flex-col gap-2 w-80 sm:w-72  text-[10px] sm:text-xs">
+            <div className="flex flex-col gap-2 w-80 sm:w-72 text-[10px] sm:text-xs">
               <div className="error-alert cursor-default flex items-center justify-between w-full h-12 sm:h-14 rounded-lg bg-[#232531] px-[10px]">
                 <div className="flex gap-2">
                   <div className="text-[#d65563] bg-white/5 backdrop-blur-xl p-1 rounded-lg">
@@ -118,7 +182,7 @@ const FeedbackForm = ({ shopename }) => {
 
               {/* Link to Login */}
               <Link
-                to="/login" // Use Link for navigation
+                to="/login"
                 className="w-full bg-blue-500 text-white rounded-md py-2 text-center hover:bg-blue-600 transition duration-300"
               >
                 Log In
@@ -126,6 +190,28 @@ const FeedbackForm = ({ shopename }) => {
             </div>
           </div>
         )}
+
+        {/* Display fetched reviews */}
+        <div className="col-span-6 mt-4">
+          <h2 className="text-lg font-bold">Reviews:</h2>
+          {reviews.length > 0 ? (
+            reviews.map((review) => (
+              <div
+                key={review.id}
+                className="border-b border-slate-200 pb-2 mb-2"
+              >
+                <p className="font-medium">{review.comment}</p>{" "}
+                {/* Adjust according to your API response */}
+                <p className="text-yellow-500">
+                  Rating: {review.rate_star}
+                </p>{" "}
+                {/* Adjust according to your API response */}
+              </div>
+            ))
+          ) : (
+            <p>No reviews available.</p>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ let ServiceListingTitle = ({ name }) => {
     <>
       <div className="font-poppins grid   grid-cols-1 lg:grid-cols-2 mb-5  ">
         <div className="grid grid-cols-1">
-          <h3 className="font-bold mb-3 text-[24px] lg:text[34px]">
+          <h3 className="font-bold mb-3 font-kh text-[24px] lg:text[34px]">
             {name || "default name"}
           </h3>
           <div className="grid grid-cols-3 place-content-center gap-3  text-[10px] md:text-subheader">

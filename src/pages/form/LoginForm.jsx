@@ -1,21 +1,25 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { login } from "../auth/authAction"; // Ensure this is defined
+import { login } from "../auth/register";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
-import Logo1 from "../../assets/img/LogoCP1.png";
+import Lottie from "lottie-react";
+import animationData from "../../components/animations/login.json";
+
 export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const regex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const [loading, setLoading] = useState(false);
+  const regex = /^.{5,}$/;
 
   const handleLogin = async (values) => {
+    setLoading(true);
     try {
       const loginRes = await login(values);
-      console.log("Login Response:", loginRes); // Debugging line
+      console.log("Login Response:", loginRes);
+      localStorage.setItem("accessToken", loginRes.access);
 
       if (loginRes.access) {
         toast.success("Login Successfully");
@@ -24,147 +28,185 @@ export default function LoginForm() {
         toast.error(loginRes.message);
       }
     } catch (error) {
-      console.error("Login error:", error); // Catch any unexpected errors
+      console.error("Login error:", error);
       toast.error("An error occurred during login.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
-      <section className="flex justify-center my-3">
-        <Formik
-          initialValues={{
-            email: "",
-            password: "",
-          }}
-          validationSchema={Yup.object({
-            email: Yup.string()
-              .email("Email is invalid")
-              .required("Email is required"),
-            password: Yup.string()
-              .matches(
-                regex,
-                "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special case character"
-              )
-              .required("Password is required"),
-          })}
-          onSubmit={(values, { resetForm }) => {
-            handleLogin(values);
-            resetForm();
-            console.log("values", values);
-          }}
-        >
-          <Form className="flex w-full md:w-1/2  flex-col  items-center md:flex  bg-grey-100 p-0 md:p-5 rounded-md">
-            <div className="w-full flex justify-center items-center">
-              <img
-                className="w-full object-contain h-[100px]"
-                src="https://easyfound.automatex.dev/media/uploads/category_a99aa9d3-3ac8-4156-9cc2-0d677847f082.png"
-                alt="Login Image"
-              />
-            </div>
+      <section className="grid grid-cols-1 md:grid-cols-2 h-screen">
+        <div className="md:flex items-center justify-start hidden">
+          <Lottie
+            animationData={animationData}
+            className="h-[500px] pt-10"
+            loop
+          />
+        </div>
 
-            <div className="w-1/2 flex flex-col justify-center">
-              <h3 className="font-pacifico text-primary-600 text-center py-3 font-semibold text-header-3">
-                Log in
-              </h3>
+        <div className="h-screen md:h-auto grid place-content-center">
+          <div className="grid gap-8">
+            <section id="back-div" className="rounded-3xl">
+              <div className="border-8 border-transparent rounded-xl bg-white dark:bg-gray-900 shadow-xl p-8 m-2">
+                <h1 className="text-5xl font-bold text-center cursor-default dark:text-gray-300 text-gray-900">
+                  Log in
+                </h1>
+                <Formik
+                  initialValues={{
+                    email: "litongfong12@gmail.com",
 
-              {/* Email */}
-              <div className="mt-3 font-poppins">
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium dark:text-white"
+                    password: "password123",
+                  }}
+                  validationSchema={Yup.object({
+                    email: Yup.string()
+                      .email("Email is invalid")
+                      .required("Email is required"),
+                    password: Yup.string()
+                      .matches(
+                        regex,
+                        "Password must be at least 5 characters long."
+                      )
+                      .required("Password is required"),
+                  })}
+                  onSubmit={async (values, { resetForm }) => {
+                    await handleLogin(values);
+                    resetForm(); // Reset after handling login
+                  }}
                 >
-                  Email
-                </label>
-                <Field
-                  type="email"
-                  name="email"
-                  id="email"
-                  className="bg-gray-50 border border-grey-300 text-grey-900 text-sm rounded-lg focus:ring-semiBlue-500 focus:border-semiBlue-500 block w-full p-2.5 dark:text-white dark:focus:ring-semiBlue-500 dark:focus:border-semiBlue-500"
-                  placeholder="name@gmail.com"
-                />
-                <ErrorMessage
-                  name="email"
-                  className="text-primary-600"
-                  component="div"
-                />
-              </div>
+                  <Form
+                    className="space-y-6"
+                    onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
+                  >
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className="block mb-2 text-lg dark:text-gray-300"
+                      >
+                        Email
+                      </label>
+                      <Field
+                        id="email"
+                        name="email"
+                        className="border p-3 shadow-md dark:bg-indigo-700 dark:text-gray-300 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
+                        type="email"
+                        placeholder="Email"
+                      />
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className="text-red-600"
+                      />
+                    </div>
 
-              {/* Password */}
-              <div className="mt-3 relative font-poppins">
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Password
-                </label>
-                <Field
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  id="password"
-                  className="bg-gray-50 border border-grey-300 text-grey-900 text-sm rounded-lg focus:ring-semiBlue-500 focus:border-semiBlue-500 block w-full p-2.5 dark:text-white dark:focus:ring-semiBlue-500 dark:focus:border-semiBlue-500"
-                  placeholder="********"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-2 top-2 text-sm text-gray-500"
-                >
-                  {showPassword ? "Hide" : "Show"}
-                </button>
-                <ErrorMessage
-                  name="password"
-                  className="text-primary-600"
-                  component="div"
-                />
-              </div>
+                    <div>
+                      <label
+                        htmlFor="password"
+                        className="block mb-2 text-lg dark:text-gray-300"
+                      >
+                        Password
+                      </label>
+                      <Field
+                        id="password"
+                        name="password"
+                        className="border p-3 shadow-md dark:bg-indigo-700 dark:text-gray-300 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                      />
+                      <ErrorMessage
+                        name="password"
+                        component="div"
+                        className="text-red-600"
+                      />
+                    </div>
 
-              <div className="flex justify-between mt-4 font-poppins">
-                <div className="flex items-center mb-4">
-                  <input type="checkbox" id="terms" className="mr-2" />
-                  <label htmlFor="terms" className="text-gray-600">
-                    Remember me
-                  </label>
+                    <a
+                      href="#"
+                      className="text-blue-400 text-sm transition hover:underline"
+                    >
+                      Forget your password?
+                    </a>
+
+                    <button
+                      className={`cursor-pointer mt-10 text-white font-bold relative text-[14px] w-full h-[3em] text-center bg-gradient-to-r from-violet-500 from-10% via-sky-500 via-30% to-pink-500 to-90% bg-[length:400%] rounded-[30px] z-10 hover:animate-gradient-xy hover:bg-[length:100%] before:content-[''] before:absolute before:-top-[5px] before:-bottom-[5px] before:-left-[5px] before:-right-[5px] before:bg-gradient-to-r before:from-violet-500 before:from-10% before:via-sky-500 before:via-30% before:to-pink-500 before:bg-[length:400%] before:-z-10 before:rounded-[35px] before:hover:blur-xl before:transition-all before:ease-in-out before:duration-[1s] before:hover:bg-[length:10%] active:bg-violet-700 ${
+                        loading ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                      type="submit"
+                      disabled={loading}
+                    >
+                      {loading ? "Logging in..." : "LOG IN"}
+                    </button>
+                  </Form>
+                </Formik>
+
+                <div className="flex flex-col mt-4 text-sm text-center dark:text-gray-300">
+                  <p>
+                    Don't have an account?{" "}
+                    <Link
+                      to="/signup"
+                      className="text-blue-400 transition hover:underline"
+                    >
+                      Sign Up
+                    </Link>
+                  </p>
                 </div>
-                <a
-                  href="#"
-                  className="text-primary-600 text-sm mb-4 block text-right underline underline-offset-1"
-                >
-                  Forget password?
-                </a>
-              </div>
 
-              {/* Button login */}
-              <button
-                type="button"
-                class="font-poppins cursor-pointer  text-white font-bold relative text-[14px] w-full h-[3em] text-center bg-gradient-to-r from-violet-500 from-10% via-sky-500 via-30% to-pink-500 to-90% bg-[length:400%] rounded-[30px] z-10 hover:animate-gradient-xy hover:bg-[length:100%] before:content-[''] before:absolute before:-top-[5px] before:-bottom-[5px] before:-left-[5px] before:-right-[5px] before:bg-gradient-to-r before:from-violet-500 before:from-10% before:via-sky-500 before:via-30% before:to-pink-500 before:bg-[length:400%] before:-z-10 before:rounded-[35px] before:hover:blur-xl before:transition-all before:ease-in-out before:duration-[1s] before:hover:bg-[length:10%] active:bg-violet-700 focus:ring-violet-700"
-              >
-                Login
-              </button>
-
-              <p className=" font-poppins font-semibold text-header-5 text-center py-2">
-                Don't have an account?
-              </p>
-              <Link to="/signup" className="w-full">
-                <button
-                  type="button"
-                  className="font-poppins cursor-pointer  text-white font-bold relative text-[14px] w-full h-[3em] text-center bg-gradient-to-r from-violet-500 from-10% via-sky-500 via-30% to-pink-500 to-90% bg-[length:400%] rounded-[30px] z-10 hover:animate-gradient-xy hover:bg-[length:100%] before:content-[''] before:absolute before:-top-[5px] before:-bottom-[5px] before:-left-[5px] before:-right-[5px] before:bg-gradient-to-r before:from-violet-500 before:from-10% before:via-sky-500 before:via-30% before:to-pink-500 before:bg-[length:400%] before:-z-10 before:rounded-[35px] before:hover:blur-xl before:transition-all before:ease-in-out before:duration-[1s] before:hover:bg-[length:10%] active:bg-violet-700 focus:ring-violet-700"
+                <div
+                  id="third-party-auth"
+                  className="flex justify-center gap-4 mt-5"
                 >
-                  Sign up
-                </button>
-              </Link>
-              {/* easyfound */}
-              <div className=" mt-10 flex items-center">
-                <Link to="/">
-                  <img src={Logo1} alt="" className="w-16 h-16" />
-                </Link>
-                <span className="font-pacifico"> Easy Found</span>
+                  <button className="p-2 rounded-lg hover:scale-105 transition transform duration-300 shadow-lg">
+                    <img
+                      className="w-6 h-6"
+                      loading="lazy"
+                      src="https://ucarecdn.com/8f25a2ba-bdcf-4ff1-b596-088f330416ef/"
+                      alt="Google"
+                    />
+                  </button>
+                  <button className="p-2 rounded-lg hover:scale-105 transition transform duration-300 shadow-lg">
+                    <img
+                      className="w-6 h-6"
+                      loading="lazy"
+                      src="https://ucarecdn.com/95eebb9c-85cf-4d12-942f-3c40d7044dc6/"
+                      alt="LinkedIn"
+                    />
+                  </button>
+                </div>
+
+                <div className="mt-4 text-center text-sm text-gray-500">
+                  <p>
+                    By signing in, you agree to our{" "}
+                    <a
+                      href="#"
+                      className="text-blue-400 transition hover:underline"
+                    >
+                      Terms
+                    </a>{" "}
+                    and{" "}
+                    <a
+                      href="#"
+                      className="text-blue-400 transition hover:underline"
+                    >
+                      Privacy Policy
+                    </a>
+                    .
+                  </p>
+                </div>
               </div>
-            </div>
-          </Form>
-        </Formik>
+            </section>
+          </div>
+        </div>
       </section>
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="light"
+      />
     </>
   );
 }

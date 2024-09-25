@@ -58,7 +58,7 @@ export function HorizontalCategoryScroll({ onCategorySelect }) {
   );
 }
 
-export function SearchBar({ onCategorySelect, selectedCategory }) {
+export function SearchBar({ onCategorySelect, selectedCategory, onSearch }) {
   const categoryMap = {
     Massage: "Skincare Clinics",
     "Property Sales": "Property Sales",
@@ -85,18 +85,30 @@ export function SearchBar({ onCategorySelect, selectedCategory }) {
   const handleCategoryClick = (category) => {
     onCategorySelect(category);
     closeDropdown(); // Close dropdown after selecting a category
+    setSearchQuery(""); // Clear the search input when a category is selected
   };
 
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
+    const query = e.target.value;
+    setSearchQuery(query);
+    onSearch(query); // Call the parent onSearch function
+    console.log("Search Query: ", query); // Debugging line
     if (!isDropdownOpen) {
       setIsDropdownOpen(true); // Automatically open dropdown when typing
     }
   };
 
-  const filteredCategories = Object.keys(categoryMap).filter((category) =>
-    categoryMap[category].toLowerCase().includes(searchQuery.toLowerCase())
+  // Filter categories based on search query (both keys and displayed values)
+  const filteredCategories = Object.keys(categoryMap).filter(
+    (category) =>
+      category.toLowerCase().includes(searchQuery.toLowerCase()) || // Check the key (e.g., "Massage")
+      categoryMap[category].toLowerCase().includes(searchQuery.toLowerCase()) // Check the displayed value (e.g., "Skincare Clinics")
   );
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    onSearch(""); // Clear the search in the parent component
+  };
 
   return (
     <div className="flex font-poppins justify-start items-center py-8 w-[240px] md:w-[500px]">
@@ -134,14 +146,14 @@ export function SearchBar({ onCategorySelect, selectedCategory }) {
             required
           />
 
-          {/* Close Button */}
-          {isDropdownOpen && (
+          {/* Clear Button */}
+          {searchQuery && (
             <button
-              onClick={closeDropdown}
+              onClick={clearSearch}
               type="button"
               className="absolute right-0 top-0 mt-4 mr-2 p-2 text-gray-600 bg-gray-200 rounded hover:bg-gray-300"
             >
-              Close
+              Clear
             </button>
           )}
         </div>

@@ -10,18 +10,19 @@ import UnstickyNavbar from "./components/navbar/UnstickyNavbar";
 import ServiceListing from "./pages/servicelisting-page";
 import { CardServiceListing } from "./components/cards/servicelisting/CardServiceListing";
 import SearchPage from "./pages/search-page";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <div>
-
-      <ServiceListing/>
-      <UnstickyNavbar />
-      <Navbar />
-      <Homepage />
-
+      <ProtectedRoute>
+        <ServiceListing />
+        <UnstickyNavbar />
+        <Navbar />
+        <Homepage />
+      </ProtectedRoute>
     </div>
   );
 }

@@ -1,14 +1,50 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import logo1 from "../../assets/img/LogoCP1.png"; // Adjust this path accordingly
 import logo2 from "../../assets/img/LogoGPD.png";
+import {
+  getAccessToken,
+  removeAccessToken,
+  clearSecureLocalStorage,
+} from "../../lib/secureLocalStorage"; // Ensure this path is correct
 
 const Navbar = ({ isDarkMode, toggleDarkMode }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [accessToken, setAccessToken] = useState("");
+  const [loginMessage, setLoginMessage] = useState(""); // State for login message
+  const navigate = useNavigate(); // Hook for navigation
+
+  useEffect(() => {
+    const token = getAccessToken();
+    setAccessToken(token);
+    if (token) {
+      setLoginMessage("Login successful!"); // Set message if a token is found
+    } else {
+      setLoginMessage(""); // Clear message if no token
+    }
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  // Handle logout
+  const handleLogout = () => {
+    console.log("Logging out...");
+
+    // Clear all items from secure local storage
+    clearSecureLocalStorage();
+
+    // Clear local state
+    setAccessToken(""); // Clear access token in local state
+    setLoginMessage(""); // Clear login message on logout
+
+    console.log(
+      "Logout successful. All items cleared from secure local storage."
+    );
+  };
+
+  const isLoggedIn = !!accessToken; // Determine if user is logged in based on access token
 
   return (
     <div
@@ -76,6 +112,38 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
                 About Us
               </NavLink>
             </li>
+
+            {/* Conditional Rendering for Add to Cart and Profile Icons */}
+            {isLoggedIn && (
+              <>
+                <li className="p-3">
+                  <NavLink
+                    to="/cart"
+                    className={({ isActive }) =>
+                      isActive ? "text-amber-600" : "text-amber-500"
+                    }
+                  >
+                    <i className="fa fa-shopping-cart"></i>{" "}
+                    {/* Add Cart Icon */}
+                  </NavLink>
+                </li>
+                <li className="p-3">
+                  <NavLink
+                    to="/profile"
+                    className={({ isActive }) =>
+                      isActive ? "text-amber-600" : "text-amber-500"
+                    }
+                  >
+                    <i className="fa fa-user"></i> {/* Profile Icon */}
+                  </NavLink>
+                </li>
+                <li className="p-3">
+                  <button onClick={handleLogout} className="text-amber-500">
+                    Logout
+                  </button>
+                </li>
+              </>
+            )}
           </ul>
 
           {/* Mobile menu */}
@@ -119,6 +187,47 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
                 About Us
               </NavLink>
             </li>
+
+            {/* Conditional Rendering for Add to Cart and Profile Icons in Mobile Menu */}
+            {isLoggedIn && (
+              <>
+                <li className="p-5">
+                  <NavLink
+                    to="/cart"
+                    onClick={toggleMenu}
+                    className={({ isActive }) =>
+                      isActive ? "text-amber-900" : "text-amber-400"
+                    }
+                  >
+                    <i className="fa fa-shopping-cart"></i>{" "}
+                    {/* Add Cart Icon */}
+                  </NavLink>
+                </li>
+                <li className="p-5">
+                  <NavLink
+                    to="/profile"
+                    onClick={toggleMenu}
+                    className={({ isActive }) =>
+                      isActive ? "text-amber-900" : "text-amber-400"
+                    }
+                  >
+                    <i className="fa fa-user"></i> {/* Profile Icon */}
+                  </NavLink>
+                </li>
+                <li className="p-5">
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      toggleMenu();
+                    }}
+                    className="text-amber-900"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
+            )}
+
             <button
               onClick={toggleMenu}
               aria-label="Close Menu"
@@ -131,17 +240,6 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
           {/* Theme toggle */}
           <div className="col-span-2 flex items-center justify-end lg:col-span-1">
             <div className="flex gap-4 items-center">
-              {/* <i
-                className={`fa-regular fa-heart ${
-                  isDarkMode ? "text-white" : "text-gray-900"
-                }`}
-              ></i>
-              <i
-                className={`fa-regular fa-user ${
-                  isDarkMode ? "text-white" : "text-gray-900"
-                }`}
-              ></i> */}
-
               {/* Dark Mode Toggle Button */}
               <button onClick={toggleDarkMode} className="p-1">
                 {isDarkMode ? (
@@ -153,6 +251,11 @@ const Navbar = ({ isDarkMode, toggleDarkMode }) => {
             </div>
           </div>
         </nav>
+
+        {/* Display the login success message */}
+        {loginMessage && (
+          <div className="text-center text-green-500">{loginMessage}</div>
+        )}
       </header>
     </div>
   );
