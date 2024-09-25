@@ -57,7 +57,7 @@ let CloneDetails = () => {
       {/* title descriptipn */}
       <main className="max-w-screen-xl min-w-80 mx-auto p-10 md:p-4">
         {/* show image */}
-        <section className="grid mb-5 px-10 xl:p-0">
+        <section className="grid mb-5 px-2 lg:p-0">
           <ServiceListingTitle name={fetchSignleProduct.name} />
           <CarouselImg
             image={fetchSignleProduct.image}
@@ -148,16 +148,17 @@ let CloneDetails = () => {
                 {fetchSignleProduct.description}
               </p>
             </div>
-            <div className="flex md:hidden">
+
+            <div className="w-full flex md:hidden">
               <FeedbackForm shopename={fetchSignleProduct.name} />
             </div>
           </section>
           {/* show card */}
 
-          <section className="grid col-span-1 lg:col-span-3   p-10  ">
-            <div className="w-full grid place-content-center ">
+          <section className="grid col-span-1 lg:col-span-3  md:p-10  ">
+            <div className="w-full  ">
               {/* price section */}
-              <div className=" md:flex hidden mb-10 border-2 rounded-lg p-4 flex flex-col">
+              <div className=" md:flex hidden mb-10 border-2 rounded-lg md:p-4 flex flex-col">
                 <div className="flex justify-between items-center  ">
                   <span className="font-pacifico font-bold  md:text-5xl mb-5 ">
                     Description
@@ -282,7 +283,7 @@ let CloneDetails = () => {
           <HorizenralLine />
           {/* comment */}
           <div>
-            <div className="grid grid-cols-2    gap-3 mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-2    gap-3 mb-10">
               {/* item1 */}
               {indexList.map((el, i) => (
                 <>

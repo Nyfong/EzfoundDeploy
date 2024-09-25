@@ -57,34 +57,50 @@ export function HorizontalCategoryScroll({ onCategorySelect }) {
     </div>
   );
 }
-// search bar
+
 export function SearchBar({ onCategorySelect, selectedCategory }) {
   const categoryMap = {
     Massage: "Skincare Clinics",
     "Property Sales": "Property Sales",
     "Property Rentals": "Property Rentals",
     Spa: "Spa",
-    Electricians: "Electricians", // Ensure correct spelling
+    Electricians: "Electricians",
     "Khmer Food": "Khmer Food",
-    Cafe: "Phone Repair", // Display "Phone Repair" for "Cafe"
+    Cafe: "Phone Repair",
     "Hair Salon": "Hair Salon",
     "Nail Salon": "Nail Salon",
   };
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prevState) => !prevState);
   };
 
-  const handleCategoryClick = (category) => {
-    onCategorySelect(category); // Call the parent's category select handler
-    setIsDropdownOpen(false);
+  const closeDropdown = () => {
+    setIsDropdownOpen(false); // Close the dropdown
   };
 
+  const handleCategoryClick = (category) => {
+    onCategorySelect(category);
+    closeDropdown(); // Close dropdown after selecting a category
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    if (!isDropdownOpen) {
+      setIsDropdownOpen(true); // Automatically open dropdown when typing
+    }
+  };
+
+  const filteredCategories = Object.keys(categoryMap).filter((category) =>
+    categoryMap[category].toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className="flex font-poppins justify-start items-center  py-8 w-[240px] md:w-[500px] ">
-      <form className="max-w-lg w-full">
+    <div className="flex font-poppins justify-start items-center py-8 w-[240px] md:w-[500px]">
+      <form className="max-w-lg w-full relative">
         <div className="flex relative">
           <button
             onClick={toggleDropdown}
@@ -108,30 +124,46 @@ export function SearchBar({ onCategorySelect, selectedCategory }) {
               />
             </svg>
           </button>
-          {isDropdownOpen && (
-            <div className="absolute top-full left-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-[140px]">
-              <ul className="py-2 text-sm text-gray-700">
-                {Object.keys(categoryMap).map((category) => (
-                  <li key={category}>
-                    <button
-                      type="button"
-                      className="inline-flex w-full px-4 py-2 hover:bg-gray-100"
-                      onClick={() => handleCategoryClick(category)}
-                    >
-                      {categoryMap[category]} {/* Display mapped name */}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+
           <input
             type="search"
+            value={searchQuery}
+            onChange={handleSearchChange}
             className="block p-4 w-full z-20 text-sm text-black bg-amber-50 rounded-r-lg border border-gray-300 focus:ring-amber-500 focus:border-amber-500"
             placeholder="Search Categories, Places, Services..."
             required
           />
+
+          {/* Close Button */}
+          {isDropdownOpen && (
+            <button
+              onClick={closeDropdown}
+              type="button"
+              className="absolute right-0 top-0 mt-4 mr-2 p-2 text-gray-600 bg-gray-200 rounded hover:bg-gray-300"
+            >
+              Close
+            </button>
+          )}
         </div>
+
+        {/* Dropdown Menu */}
+        {isDropdownOpen && filteredCategories.length > 0 && (
+          <div className="absolute top-full left-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-full">
+            <ul className="py-2 text-sm text-gray-700">
+              {filteredCategories.map((category) => (
+                <li key={category}>
+                  <button
+                    type="button"
+                    className="inline-flex w-full px-4 py-2 hover:bg-gray-100"
+                    onClick={() => handleCategoryClick(category)}
+                  >
+                    {categoryMap[category]} {/* Display mapped name */}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </form>
     </div>
   );

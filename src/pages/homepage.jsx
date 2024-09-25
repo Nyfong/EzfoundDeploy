@@ -22,7 +22,7 @@ let Homepage = () => {
               <p className="font-pacifico">Service listing website</p>
             </div>
             <div>
-              <h1 className="font-bold font-poppins text-5xl leading-relaxed">
+              <h1 className="font-bold font-poppins text-5xl leading-snug md:leading-relaxed ">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-500 to-pink-500">
                   Easy Found
                 </span>{" "}
