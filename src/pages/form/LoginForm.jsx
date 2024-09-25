@@ -65,6 +65,8 @@ export default function LoginForm({ handleLogin }) {
             property="og:url"
             content="https://easyfound-cstad.vercel.app/"
           />
+          <link rel="canonical" href="https://easyfound-cstad.vercel.app/" />
+
           <meta property="og:type" content="website" />
           <meta
             property="og:image"
@@ -94,8 +96,8 @@ export default function LoginForm({ handleLogin }) {
                   </h1>
                   <Formik
                     initialValues={{
-                      email: "litongfong12@gmail.com",
-                      password: "password123",
+                      email: "",
+                      password: "",
                     }}
                     validationSchema={Yup.object({
                       email: Yup.string()
