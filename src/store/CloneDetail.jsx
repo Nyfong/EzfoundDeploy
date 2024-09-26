@@ -60,15 +60,9 @@ let CloneDetails = () => {
         <Helmet>
           <title>service details</title>
           <meta
-            name="description"
-            content="Welcome to Easy Found, Cambodia’s premier service listing platform! Explore a wide range of trusted local services, from restaurants to repair shops, all in one place. Let Easy Found connect you to what you need with just a few clicks!"
+            property="og:image"
+            content="https://easyfound.automatex.dev/media/uploads/category_0a492b09-90d5-4a29-b21c-944f54693dab.png"
           />
-          <meta
-            name="keywords"
-            content="service listing, Cambodia, local services, restaurants, repair shops"
-          />
-          <meta name="author" content="Easy Found" />
-          <link rel="canonical" href="https://easyfound-cstad.vercel.app/" />
           <meta
             property="og:title"
             content="Easy Found - Cambodia's Premier Service Listing Platform"
@@ -77,15 +71,20 @@ let CloneDetails = () => {
             property="og:description"
             content="Explore trusted local services, from restaurants to repair shops, all in one place!"
           />
+
           <meta
-            property="og:url"
-            content="https://easyfound-cstad.vercel.app/"
+            name="keywords"
+            content="service listing, Cambodia, local services, restaurants, repair shops"
           />
+          <meta name="author" content="Easy Found" />
+          <link rel="canonical" href="https://ezfound-cstad.vercel.app/" />
+
+          <meta
+            property="og:description"
+            content="Explore trusted local services, from restaurants to repair shops, all in one place!"
+          />
+          <meta property="og:url" content="https://ezfound-cstad.vercel.app/" />
           <meta property="og:type" content="website" />
-          <meta
-            property="og:image"
-            content="https://easyfound.automatex.dev/media/uploads/category_0a492b09-90d5-4a29-b21c-944f54693dab.png"
-          />
         </Helmet>
         {/* title descriptipn */}
         <main className="max-w-screen-xl min-w-80 mx-auto p-10 md:p-4">
