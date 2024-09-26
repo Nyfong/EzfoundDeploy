@@ -173,10 +173,7 @@ const FeedbackForm = ({ shopename, id }) => {
                 <div className="max-w-lg px-6 py-4 rounded-lg">
                   <div className="flex items-center mb-6">
                     <img
-                      src={
-                        review.userImage ||
-                        "https://easyfound.automatex.dev/media/uploads/category_0a492b09-90d5-4a29-b21c-944f54693dab.png"
-                      }
+                      src="https://easyfound.automatex.dev/media/uploads/category_0a492b09-90d5-4a29-b21c-944f54693dab.png"
                       alt="Avatar"
                       className="w-12 h-12 rounded-full mr-4"
                     />
