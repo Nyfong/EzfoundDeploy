@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { login } from "../auth/register";
@@ -9,11 +9,20 @@ import Lottie from "lottie-react";
 import animationData from "../../components/animations/login.json";
 import animationData2 from "../../components/animations/online-sales.json";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+
 export default function LoginForm({ handleLogin }) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const regex = /^.{5,}$/;
+
+  useEffect(() => {
+    // Check if access token is already present
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      navigate("/"); // Redirect to home if already logged in
+    }
+  }, [navigate]);
 
   const handleLoginSubmit = async (values) => {
     setLoading(true);
@@ -24,9 +33,7 @@ export default function LoginForm({ handleLogin }) {
         localStorage.setItem("accessToken", loginRes.access);
         handleLogin(loginRes.access); // Call handleLogin to update navbar state
         toast.success("Login Successfully");
-
-        navigate("/");
-        // window.location.reload(); // Navigate to the home page
+        navigate("/"); // Navigate to the home page
       } else if (loginRes.message) {
         toast.error(loginRes.message);
       }
@@ -55,14 +62,12 @@ export default function LoginForm({ handleLogin }) {
             property="og:description"
             content="Explore trusted local services, from restaurants to repair shops, all in one place!"
           />
-
           <meta
             name="keywords"
             content="service listing, Cambodia, local services, restaurants, repair shops"
           />
           <meta name="author" content="Easy Found" />
           <link rel="canonical" href="https://ezfound-cstad.vercel.app/" />
-
           <meta
             property="og:description"
             content="Explore trusted local services, from restaurants to repair shops, all in one place!"
@@ -216,18 +221,17 @@ export default function LoginForm({ handleLogin }) {
                       By signing in, you agree to our{" "}
                       <a
                         href="#"
-                        className="text-blue-400 transition hover:underline"
+                        className="font-bold text-blue-400 hover:underline"
                       >
-                        Terms
+                        Terms of Service
                       </a>{" "}
                       and{" "}
                       <a
                         href="#"
-                        className="text-blue-400 transition hover:underline"
+                        className="font-bold text-blue-400 hover:underline"
                       >
                         Privacy Policy
                       </a>
-                      .
                     </p>
                   </div>
                 </div>
