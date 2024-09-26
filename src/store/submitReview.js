@@ -30,3 +30,35 @@ export async function submitReview(reviewData) {
     return { error: error.message };
   }
 }
+
+const response = await fetch("http://easyfound.automatex.dev/api/reviews/", {
+  method: "GET",
+  headers: {
+    Authorization: `Bearer YOUR_API_TOKEN`,
+    "Content-Type": "application/json",
+  },
+});
+
+const fetchReviewsFromAPI = async () => {
+  setLoading(true);
+  try {
+    const response = await fetch(
+      `https://easyfound.automatex.dev/api/reviews/${svcid}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    }
+    const data = await response.json();
+    setReviews(data);
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    setReviews([]);
+  } finally {
+    setLoading(false);
+  }
+};

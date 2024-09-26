@@ -6,7 +6,7 @@ import animationData3 from "../components/animations/rocket.json";
 import animationData2 from "../components/animations/online-sales.json";
 import LogoGP from "../assets/img/LogoCP1.png";
 import Good from "../assets/img/good.png";
-import FeedbackForm from "./Feedbackform";
+import FeedbackForm2 from "./Feedback2";
 import PremiumButton from "./SocailBtn";
 export let ProductCardClone = ({
   images,
@@ -118,7 +118,7 @@ export let ProductCardClone = ({
 
               <div class=" text-body line-clamp-1 font-kh">{description}</div>
             </div>
-            <FeedbackForm shopename={title} />
+            <FeedbackForm2 shopename={title} />
             {/* new */}
           </div>
         </div>
