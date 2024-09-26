@@ -209,7 +209,7 @@ const FeedbackForm2 = ({ shopename, id }) => {
               </div>
             ))
           ) : (
-            <p>No reviews available.</p>
+            <p></p>
           )}
         </div>
       </div>
