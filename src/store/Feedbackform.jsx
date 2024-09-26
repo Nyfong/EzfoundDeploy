@@ -10,8 +10,6 @@ const FeedbackForm = ({ shopename, id }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState("");
-  const [submissionError, setSubmissionError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const svcid = id;
 
   const fetchReviewsFromAPI = async () => {
@@ -69,7 +67,6 @@ const FeedbackForm = ({ shopename, id }) => {
   };
 
   const submitReview = async (reviewData) => {
-    setIsSubmitting(true);
     try {
       const response = await fetch(
         "https://easyfound.automatex.dev/api/reviews/",
@@ -88,8 +85,6 @@ const FeedbackForm = ({ shopename, id }) => {
     } catch (error) {
       console.error("Error submitting review:", error);
       return { error: "An error occurred while submitting the review." };
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -109,19 +104,21 @@ const FeedbackForm = ({ shopename, id }) => {
     const result = await submitReview(reviewData);
 
     if (result.error) {
-      setSubmissionError(result.error);
+      console.log("Review submission failed:", result.error);
     } else {
-      setReviews((prevReviews) => [
-        ...prevReviews,
-        { ...result.data, user_id: userId },
-      ]);
-      localStorage.setItem(
-        `reviews_${svcid}`,
-        JSON.stringify([...reviews, result.data])
-      );
+      setReviews((prevReviews) => {
+        const updatedReviews = [
+          ...prevReviews,
+          { ...result.data, user_id: userId },
+        ];
+        localStorage.setItem(
+          `reviews_${svcid}`,
+          JSON.stringify(updatedReviews)
+        );
+        return updatedReviews;
+      });
       setFeedback("");
       setSubmissionMessage("Thank you for your feedback!");
-      setSubmissionError("");
     }
   };
 
@@ -134,26 +131,21 @@ const FeedbackForm = ({ shopename, id }) => {
         </h1>
         <p className="text-gray-500 mb-4">We value your feedback!</p>
       </div>
+
       <textarea
         placeholder="Share your experience with this service..."
         className="w-full h-28 p-4 text-sm bg-gray-100 rounded-lg border border-gray-300 outline-none focus:ring-2 focus:ring-amber-500 transition"
         value={feedback}
         onChange={handleFeedbackChange}
-        maxLength={500} // Set a max length if desired
       ></textarea>
-      <div className="text-right text-sm text-gray-500">
-        {feedback.length}/500
-      </div>{" "}
-      {/* Character count */}
+
       <button
         onClick={handleSubmit}
-        disabled={isSubmitting} // Disable button during submission
-        className={`mt-4 w-full py-2 ${
-          isSubmitting ? "bg-gray-400" : "bg-amber-500"
-        } text-white font-bold rounded-lg shadow hover:bg-amber-600 transition`}
+        className="mt-4 w-full py-2 bg-amber-500 text-white font-bold rounded-lg shadow hover:bg-amber-600 transition"
       >
-        {isSubmitting ? "Submitting..." : "Submit Feedback"}
+        Submit Feedback
       </button>
+
       {showAlert && (
         <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black/30">
           <div className="bg-white rounded-lg shadow-lg p-4 w-80 text-center">
@@ -169,14 +161,15 @@ const FeedbackForm = ({ shopename, id }) => {
           </div>
         </div>
       )}
+
       <div className="mt-6">
         {loading ? (
           <p className="text-center">Loading reviews...</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
-            {/* Render each review */}
-            {reviews.map((review) => (
-              <div key={review.id} className="border-2 rounded-xl">
+            {/* item1 */}
+            {reviews.map((review, index) => (
+              <div key={index} className="border-2 rounded-xl">
                 <div className="max-w-lg px-6 py-4 rounded-lg">
                   <div className="flex items-center mb-6">
                     <img
@@ -206,22 +199,10 @@ const FeedbackForm = ({ shopename, id }) => {
           </div>
         )}
       </div>
+
       {submissionMessage && (
-        <div
-          className="mt-4 p-4 bg-green-100 text-green-700 text-center rounded-lg"
-          role="alert"
-          aria-live="assertive"
-        >
+        <div className="mt-4 p-4 bg-green-100 text-green-700 text-center rounded-lg">
           {submissionMessage}
-        </div>
-      )}
-      {submissionError && (
-        <div
-          className="mt-4 p-4 bg-red-100 text-red-700 text-center rounded-lg"
-          role="alert"
-          aria-live="assertive"
-        >
-          {submissionError}
         </div>
       )}
     </div>
