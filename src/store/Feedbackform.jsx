@@ -185,7 +185,7 @@ const FeedbackForm = ({ shopename, id }) => {
                         {review.userProfileName}
                       </div>
                       <div className="text-gray-500">
-                        {new Date(review.created_at).toISOString().slice(0, 10)}
+                        {/* {new Date(review.created_at).toISOString().slice(0, 10)} */}
                       </div>
                     </div>
                   </div>
