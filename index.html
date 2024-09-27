@@ -46,5 +46,57 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      function App() {
+        const dispatch = useDispatch();
+        const { products, status, error } = useSelector(
+          (state) => state.products
+        );
+
+        useEffect(() => {
+          console.log("useEffect called");
+          dispatch(fetchProducts());
+        }, [dispatch]);
+
+        return (
+          <section>
+            {/* Add SEO using helmet */}
+            <Helmet>
+              {/* Updated metadata tags for Easy Found */}
+              <title>Easy Found</title>
+
+              <meta
+                property="og:image"
+                content="https://easyfound.automatex.dev/media/uploads/category_0a492b09-90d5-4a29-b21c-944f54693dab.png"
+              />
+              <meta
+                property="og:title"
+                content="Easy Found - Cambodia's Premier Service Listing Platform"
+              />
+              <meta
+                property="og:description"
+                content="Explore trusted local services, from restaurants to repair shops, all in one place!"
+              />
+              <meta
+                name="keywords"
+                content="service listing, Cambodia, local services, restaurants, repair shops"
+              />
+              <meta name="author" content="Easy Found" />
+              <link rel="canonical" href="https://ezfound-cstad.vercel.app/" />
+              <meta
+                property="og:description"
+                content="Explore trusted local services, from restaurants to repair shops, all in one place!"
+              />
+              <meta
+                property="og:url"
+                content="https://ezfound-cstad.vercel.app/"
+              />
+              <meta property="og:type" content="website" />
+              {/* End of updated metadata tags */}
+            </Helmet>
+          </section>
+        );
+      }
+    </script>
   </body>
 </html>
