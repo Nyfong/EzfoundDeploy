@@ -48,31 +48,49 @@ let Servicepage = () => {
         <Helmet>
           <title>Category</title>
           <meta
-            property="og:image"
-            content="https://easyfound.automatex.dev/media/uploads/category_0a492b09-90d5-4a29-b21c-944f54693dab.png"
-          />
-          <meta
-            property="og:title"
+            name="keywords"
             content="Easy Found - Cambodia's Premier Service Listing Platform"
           />
           <meta
-            property="og:description"
+            name="description"
             content="Explore trusted local services, from restaurants to repair shops, all in one place!"
+            data-rh="true"
           />
-
+          <meta property="og:locale" content="en_US" />
+          <meta property="og:site_name" content="Easy Found" />
+          <meta property="og:title" content="Easy Found Istad" data-rh="true" />
           <meta
-            name="keywords"
-            content="service listing, Cambodia, local services, restaurants, repair shops"
+            property="og:image"
+            content="https://easyfound.automatex.dev/media/uploads/category_56a67b94-b22f-478f-adb7-9e67ed88ef11.png"
           />
-          <meta name="author" content="Easy Found" />
-          <link rel="canonical" href="https://ezfound-cstad.vercel.app/" />
-
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
           <meta
-            property="og:description"
-            content="Explore trusted local services, from restaurants to repair shops, all in one place!"
+            property="og:image:alt"
+            content="Easy Found Logo Servicelisitng Website"
           />
-          <meta property="og:url" content="https://ezfound-cstad.vercel.app/" />
           <meta property="og:type" content="website" />
+          <meta
+            property="og:description"
+            content="Easy Found - Cambodia's Premier Service Listing Platform"
+            data-rh="true"
+          />
+          <meta name="twitter:site" content="Service Listing" data-rh="true" />
+          <meta
+            name="twitter:card"
+            content="summary_large_image"
+            data-rh="true"
+          />
+          <meta
+            name="twitter:title"
+            content="Istad Easy Found | Platform for Cambodian Finding Services"
+            data-rh="true"
+          />
+          <meta
+            name="twitter:description"
+            content="Explore trusted local services, from restaurants to repair shops, all in one place! Easy Found"
+            data-rh="true"
+          />
         </Helmet>
         <HerobannerServiePage />
         <section className=" max-w-screen-xl min-w-80 mx-auto  p-5  md:p-10 font-poppins ">

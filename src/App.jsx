@@ -11,6 +11,19 @@ import ServiceListing from "./pages/servicelisting-page";
 import { CardServiceListing } from "./components/cards/servicelisting/CardServiceListing";
 import SearchPage from "./pages/search-page";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+
+function App() {
+  return (
+    <HelmetProvider>
+      <Helmet>
+        <title>My App Title</title>
+        <meta name="description" content="Description of my app." />
+      </Helmet>
+      <div>Your app content here.</div>
+    </HelmetProvider>
+  );
+}
 
 function App() {
   const [count, setCount] = useState(0);
