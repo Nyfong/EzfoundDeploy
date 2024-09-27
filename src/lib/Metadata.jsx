@@ -1,7 +1,6 @@
 // Metadata.jsx
 import React from "react";
 import { Helmet } from "react-helmet-async";
-
 export const Metadata = ({
   title,
   description,
@@ -12,7 +11,7 @@ export const Metadata = ({
   return (
     <Helmet>
       <title>{`CSTAD | ${title || "Easy Found"}`}</title>
-      <meta name="title" content={title || "TechDeals"} />
+      <meta name="title" content={title || "Easy Found"} />
       <meta
         name="description"
         content={description || "Add default description here"}
