@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
 import AdSense from "react-adsense";
 
-const ContentFeed = () => {
-  // This effect ensures that the AdSense script is only loaded once
+const AdComponent = ({ client, slot }) => {
+  // Load the AdSense script only once
   useEffect(() => {
-    const loadAdsenseScript = () => {
-      if (
-        !document.querySelector(
-          'script[src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]'
-        )
-      ) {
+    const loadAdSenseScript = () => {
+      const existingScript = document.querySelector(
+        'script[src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]'
+      );
+      if (!existingScript) {
         const script = document.createElement("script");
         script.src =
           "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
@@ -19,34 +18,43 @@ const ContentFeed = () => {
       }
     };
 
-    loadAdsenseScript(); // Call the function to load the script
-  }, []);
+    loadAdSenseScript();
+
+    // Ensure adsbygoogle array is initialized
+    window.adsbygoogle = window.adsbygoogle || [];
+    window.adsbygoogle.push({
+      google_ad_client: client,
+      enable_page_level_ads: true,
+    });
+  }, [client]);
 
   return (
+    <AdSense.Google
+      client={client}
+      slot={slot}
+      style={{ display: "block", margin: "20px 0", minHeight: "250px" }}
+      format="fluid"
+    />
+  );
+};
+
+const ContentFeed = () => {
+  return (
     <div>
-      {/* Your content here */}
       <p>Content item 1</p>
-      <AdSense.Google
+      <AdComponent
         client="ca-pub-5057518625235644"
-        slot="2864527634" // Ensure this slot is unique in your AdSense account
-        style={{ display: "block", margin: "20px 0", minHeight: "250px" }}
-        format="fluid"
+        slot="2864527634" // Unique slot for the first ad
       />
-
       <p>Content item 2</p>
-      <AdSense.Google
+      <AdComponent
         client="ca-pub-5057518625235644"
-        slot="2864527635" // Use a different slot for each ad
-        style={{ display: "block", margin: "20px 0", minHeight: "250px" }}
-        format="fluid"
+        slot="2864527635" // Unique slot for the second ad
       />
-
       <p>Content item 3</p>
-      <AdSense.Google
+      <AdComponent
         client="ca-pub-5057518625235644"
-        slot="2864527636" // Use a different slot for each ad
-        style={{ display: "block", margin: "20px 0", minHeight: "250px" }}
-        format="fluid"
+        slot="2864527636" // Unique slot for the third ad
       />
     </div>
   );
