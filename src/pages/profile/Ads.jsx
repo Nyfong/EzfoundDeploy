@@ -1,79 +1,53 @@
-import React, { useEffect, useState } from "react";
-
-const GoogleAdSense = () => {
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    // Load the Google Ads script
-    const script = document.createElement("script");
-    script.src =
-      "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5057518625235644";
-    script.async = true;
-    script.crossOrigin = "anonymous";
-
-    script.onload = () => {
-      // Push to adsbygoogle to display the ad
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    };
-
-    script.onerror = () => {
-      setError("Failed to load Google Ads script.");
-    };
-
-    document.body.appendChild(script);
-
-    return () => {
-      // Cleanup
-      document.body.removeChild(script);
-    };
-  }, []);
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  return (
-    <div style={{ margin: "20px 0", minHeight: "250px" }}>
-      <ins
-        className="adsbygoogle"
-        style={{ display: "block" }}
-        data-ad-format="fluid"
-        data-ad-layout-key="-fm+f+g-6d+9i"
-        data-ad-client="ca-pub-5057518625235644"
-        data-ad-slot="2864527634"
-      ></ins>
-    </div>
-  );
-};
-
+import React, { useEffect } from "react";
 import AdSense from "react-adsense";
 
 const ContentFeed = () => {
+  // This effect ensures that the AdSense script is only loaded once
+  useEffect(() => {
+    const loadAdsenseScript = () => {
+      if (
+        !document.querySelector(
+          'script[src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]'
+        )
+      ) {
+        const script = document.createElement("script");
+        script.src =
+          "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+        script.async = true;
+        script.crossOrigin = "anonymous";
+        document.body.appendChild(script);
+      }
+    };
+
+    loadAdsenseScript(); // Call the function to load the script
+  }, []);
+
   return (
     <div>
       {/* Your content here */}
-      {/* <p>Content item 1</p> */}
+      <p>Content item 1</p>
       <AdSense.Google
         client="ca-pub-5057518625235644"
-        slot="2864527634"
+        slot="2864527634" // Ensure this slot is unique in your AdSense account
         style={{ display: "block", margin: "20px 0", minHeight: "250px" }}
         format="fluid"
       />
-      {/* <p>Content item 2</p> */}
+
+      <p>Content item 2</p>
       <AdSense.Google
         client="ca-pub-5057518625235644"
-        slot="2864527634"
+        slot="2864527635" // Use a different slot for each ad
         style={{ display: "block", margin: "20px 0", minHeight: "250px" }}
         format="fluid"
       />
-      {/* <p>Content item 3</p> */}
+
+      <p>Content item 3</p>
       <AdSense.Google
         client="ca-pub-5057518625235644"
-        slot="2864527634"
+        slot="2864527636" // Use a different slot for each ad
         style={{ display: "block", margin: "20px 0", minHeight: "250px" }}
         format="fluid"
       />
-      {/* Add more content as needed */}
     </div>
   );
 };
