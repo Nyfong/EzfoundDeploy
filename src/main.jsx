@@ -22,7 +22,7 @@ import { TestAPI } from "./store/ServiceListingwithAPI.jsx";
 import GeminiChatBot from "./components/AI-chatbot/GeminiChatBot.jsx";
 import AuthLayout from "./components/layout/AuthLayout.jsx"; // Import the new layout
 import Verify from "./pages/form/Verify.jsx";
-import GoogleAdSense from "./pages/profile/Ads.jsx";
+
 const handleLogin = (token) => {
   // Logic to handle the login token (e.g., store it in state or localStorage)
   localStorage.setItem("accessToken", token);
