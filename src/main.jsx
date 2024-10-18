@@ -49,10 +49,10 @@ const router = createBrowserRouter([
         path: "/servicelisting/:id",
         element: <CloneDetails />,
       },
-      {
-        path: "/ads",
-        element: <GoogleAdSense />,
-      },
+      // {
+      //   path: "/ads",
+      //   element: <GoogleAdSense />,
+      // },
       {
         path: "/searchpage",
         element: <SearchPage />,

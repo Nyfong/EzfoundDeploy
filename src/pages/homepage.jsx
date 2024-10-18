@@ -10,7 +10,7 @@ import Button1 from "../components/button/propBtn/Button1";
 import animationData from "../components/animations/animationGirl.json";
 import ScrollTriggeredCountUp from "../components/scrollTrigger/ScrollTrigger";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import GoogleAdSense from "./profile/Ads";
+import ContentFeed from "./profile/Ads";
 let Homepage = () => {
   return (
     <HelmetProvider>
@@ -145,7 +145,7 @@ let Homepage = () => {
           </section>
           <section className="mb-10 ">
             <SubBanner />
-            <GoogleAdSense />
+            <ContentFeed />
           </section>
           {/* card  */}
           <section className="mb-10">
